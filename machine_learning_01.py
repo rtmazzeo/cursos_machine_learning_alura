@@ -17,3 +17,59 @@ A ideia desse primeiro projeto é usar o machine learning para diferenciar dois 
 #  0 = Pelo Curto e 1 = Pelo Longo
 #  0 = Perna Longa e 1 = Perna Curta
 #  0 = não faz 'Au Au' e 1 = faz 'Au au'
+
+porco1 = [0,1,0]
+porco2 = [0,1,1]
+porco3 = [1,1,0]
+
+cachorro1 = [0,1,1]
+cachorro2 = [1,0,1]
+cachorro3 = [1,1,1]
+
+dados = [porco1,porco2,porco3,cachorro1,cachorro2, cachorro3]
+classes = [ 1,1,1,0,0,0]
+
+#importando a biblioteca que será usada
+from sklearn.svm import LinearSVC
+
+#estanciando o LinearSVC
+model = LinearSVC()
+
+#treinando o modelo
+model.fit(dados,classes)
+
+#verificando a previsão do modelo ( 0 = cachorro ,  1 = porco)
+
+animal_misterioso = [1,1,1]
+model.predict([animal_misterioso])
+
+#verificando a previsão do modelo ( 0 = cachorro ,  1 = porco)
+
+misterio1 = [1,1,1]
+misterio2 = [1,1,0]
+misterio3 = [0,1,1]
+
+teste = [misterio1,misterio2,misterio3]
+
+previsoes = model.predict(teste)
+
+#o resultado real do misterio1, misterio2 e misterio3 é [0,1,1]
+
+testes = [0,1,1]
+
+#comparação dos resultados previstos com o resultado real
+previsoes == testes
+
+#Taxa de Acerto
+
+corretos = (previsoes == testes).sum() #numero de corretos (verdadeiro)
+total = len(testes)
+taxa_de_acerto = corretos/total
+print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
+
+"""Calculando a taxa de acerto usando o sklearn - accuracy_score"""
+
+from sklearn.metrics import accuracy_score
+
+taxa_de_acerto = accuracy_score(testes,previsoes)
+print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
