@@ -62,11 +62,11 @@ previsoes == teste_y
 corretos = (previsoes == teste_y).sum() #numero de corretos (verdadeiro)
 total = len(teste_y)
 taxa_de_acerto = corretos/total
-print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
+print('Taxa de Acertos: %.2f'%(taxa_de_acerto*100), '%')
 
 """Calculando a taxa de acerto usando o sklearn - accuracy_score"""
 
 from sklearn.metrics import accuracy_score
 
 taxa_de_acerto = accuracy_score(teste_y,previsoes)
-print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
+print('Taxa de Acertos: %.2f'%(taxa_de_acerto*100), '%')
