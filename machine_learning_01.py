@@ -26,8 +26,8 @@ cachorro1 = [0,1,1]
 cachorro2 = [1,0,1]
 cachorro3 = [1,1,1]
 
-dados = [porco1,porco2,porco3,cachorro1,cachorro2, cachorro3]
-classes = [ 1,1,1,0,0,0]
+treino_x = [porco1,porco2,porco3,cachorro1,cachorro2, cachorro3]
+treino_y = [ 1,1,1,0,0,0] #labels
 
 #importando a biblioteca que será usada
 from sklearn.svm import LinearSVC
@@ -36,7 +36,7 @@ from sklearn.svm import LinearSVC
 model = LinearSVC()
 
 #treinando o modelo
-model.fit(dados,classes)
+model.fit(treino_x,treino_y)
 
 #verificando a previsão do modelo ( 0 = cachorro ,  1 = porco)
 
@@ -49,21 +49,18 @@ misterio1 = [1,1,1]
 misterio2 = [1,1,0]
 misterio3 = [0,1,1]
 
-teste = [misterio1,misterio2,misterio3]
+teste_x = [misterio1,misterio2,misterio3]
+teste_y = [0,1,1] #o resultado real do misterio1, misterio2 e misterio3 é [0,1,1]
 
-previsoes = model.predict(teste)
-
-#o resultado real do misterio1, misterio2 e misterio3 é [0,1,1]
-
-testes = [0,1,1]
+previsoes = model.predict(teste_x)
 
 #comparação dos resultados previstos com o resultado real
-previsoes == testes
+previsoes == teste_y
 
 #Taxa de Acerto
 
-corretos = (previsoes == testes).sum() #numero de corretos (verdadeiro)
-total = len(testes)
+corretos = (previsoes == teste_y).sum() #numero de corretos (verdadeiro)
+total = len(teste_y)
 taxa_de_acerto = corretos/total
 print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
 
@@ -71,5 +68,5 @@ print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
 
 from sklearn.metrics import accuracy_score
 
-taxa_de_acerto = accuracy_score(testes,previsoes)
+taxa_de_acerto = accuracy_score(teste_y,previsoes)
 print('Taxa de Acertos: ',taxa_de_acerto*100, '%')
