@@ -111,3 +111,21 @@ previsoes = modelo.predict(teste_x)
 acuracia = accuracy_score(teste_y,previsoes) * 100
 
 print('Taxa de Acertos: %.2f'%(acuracia), '%')
+
+"""**Usando a biblioteca para separar treino e teste**"""
+
+from sklearn.model_selection import train_test_split
+
+SEED = 20
+
+treino_x, teste_x,treino_y, teste_y = train_test_split(x,y,
+                                                       random_state = SEED, 
+                                                       stratify = y, # para que a proporção dos que compraram e não compraram sejam semelhantes (comparaveis)
+                                                       test_size =0.25)
+
+modelo = LinearSVC()
+modelo.fit(treino_x,treino_y)
+previsoes = modelo.predict(teste_x)
+acuracia = accuracy_score(teste_y,previsoes) * 100
+
+print('Taxa de Acertos: %.2f'%(acuracia), '%')
