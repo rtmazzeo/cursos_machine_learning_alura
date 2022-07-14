@@ -166,12 +166,17 @@ sns.relplot(x='horas_esperadas',y='preco', hue = 'finalizado', col='finalizado',
 x = dados[['horas_esperadas', 'preco']]
 y = dados['finalizado']
 
-SEED = 20
+SEED = 5
 
 treino_x, teste_x,treino_y, teste_y = train_test_split(x,y,
                                                        random_state = SEED, 
                                                        stratify = y, # para que a proporção dos que compraram e não compraram sejam semelhantes (comparaveis)
                                                        test_size =0.25)
+
+modelo = LinearSVC()
+modelo.fit(treino_x,treino_y)
+previsoes = modelo.predict(teste_x)
+acuracia = accuracy_score(teste_y,previsoes) * 100
 
 print("Treinaremos com %d elementos e testaremos com %d elementos" % (len(treino_x), len(teste_x)))
 print('Taxa de Acertos: %.2f'%(acuracia), '%')
@@ -180,3 +185,33 @@ import numpy as np
 previsoes_de_base = np.ones(540)
 acuracia = accuracy_score(teste_y,previsoes_de_base)*100
 print('A acurácia do algoritmo de baseline: %.2f'%(acuracia), '%')
+
+"""**Curva de Decisão**
+---
+
+"""
+
+sns.scatterplot(x='horas_esperadas',y='preco', hue = teste_y, data=teste_x)
+
+x_min = teste_x.horas_esperadas.min()
+x_max = teste_x.horas_esperadas.max()
+y_min = teste_x.preco.min()
+y_max = teste_x.preco.max()
+print(x_min,x_max,y_min,y_max)
+
+pixels = 100
+eixo_x = np.arange(x_min,x_max, (x_max - x_min) / pixels)
+eixo_y = np.arange(y_min,y_max, (y_max - y_min) / pixels)
+
+xx, yy = np.meshgrid(eixo_x, eixo_y)
+pontos = np.c_[xx.ravel(), yy.ravel()]
+pontos
+
+z = modelo.predict(pontos)
+z = z.reshape(xx.shape)
+z
+
+import matplotlib.pyplot as plt
+
+plt.contourf(xx,yy,z,alpha=0.3)
+plt.scatter(teste_x.horas_esperadas, teste_x.preco, c=teste_y,s=1)
