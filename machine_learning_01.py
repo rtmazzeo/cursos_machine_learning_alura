@@ -166,7 +166,7 @@ sns.relplot(x='horas_esperadas',y='preco', hue = 'finalizado', col='finalizado',
 x = dados[['horas_esperadas', 'preco']]
 y = dados['finalizado']
 
-SEED = 5
+SEED = 1
 
 treino_x, teste_x,treino_y, teste_y = train_test_split(x,y,
                                                        random_state = SEED, 
@@ -215,3 +215,6 @@ import matplotlib.pyplot as plt
 
 plt.contourf(xx,yy,z,alpha=0.3)
 plt.scatter(teste_x.horas_esperadas, teste_x.preco, c=teste_y,s=1)
+
+"""Observamos que o algoritmo que estamos utilizando só é capaz de aprender uma linha reta, que não serve para classificação. Precisamos de algum modelo estimador que seja capaz de aprender um padrão mais inteligente. """
+
